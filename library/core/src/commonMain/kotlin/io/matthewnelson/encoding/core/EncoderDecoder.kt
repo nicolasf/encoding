@@ -203,7 +203,7 @@ public abstract class EncoderDecoder<C: EncoderDecoder.Config>(config: C): Encod
          * */
         @Throws(EncodingException::class)
         public fun decodeOutMaxSizeOrFail(input: DecoderInput): Int {
-            var lastRelevantChar = input.size
+            var lastRelevantChar = input.size()
 
             while (lastRelevantChar > 0) {
                 val c = input[lastRelevantChar - 1]

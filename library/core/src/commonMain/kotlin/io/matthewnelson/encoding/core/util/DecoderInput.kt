@@ -18,6 +18,7 @@ package io.matthewnelson.encoding.core.util
 import io.matthewnelson.encoding.core.Decoder
 import io.matthewnelson.encoding.core.EncoderDecoder
 import io.matthewnelson.encoding.core.EncodingException
+import kotlin.jvm.JvmInline
 import kotlin.jvm.JvmSynthetic
 
 /**
@@ -29,16 +30,14 @@ import kotlin.jvm.JvmSynthetic
  * @see [get]
  * @see [EncoderDecoder.Config.decodeOutMaxSizeOrFail]
  * */
-public class DecoderInput {
-
-    private val input: Any
-    @get:JvmSynthetic
-    internal val size: Int
-
-    private constructor(input: Any, size: Int) { this.input = input; this.size = size }
-    public constructor(input: CharSequence): this(input, input.length)
-    public constructor(input: CharArray): this(input, input.size)
-    public constructor(input: ByteArray): this(input, input.size)
+@JvmInline
+public value class DecoderInput(public val input: Any) {
+    public fun size(): Int = when (input) {
+        is CharSequence -> input.length
+        is CharArray -> input.size
+        is ByteArray -> input.size
+        else -> throw EncodingException("DecodedInput type not known")
+    }
 
     @Throws(EncodingException::class)
     public operator fun get(index: Int): Char {
