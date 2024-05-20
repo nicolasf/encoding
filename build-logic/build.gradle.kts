@@ -17,6 +17,19 @@ plugins {
     `kotlin-dsl`
 }
 
+val javaVersion = 21
+kotlin {
+    jvmToolchain(javaVersion)
+}
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(javaVersion))
+    }
+}
+tasks.withType(JavaCompile::class) {
+    options.release.set(javaVersion)
+}
+
 dependencies {
     implementation(libs.gradle.kmp.configuration)
     implementation(libs.gradle.kotlin)
